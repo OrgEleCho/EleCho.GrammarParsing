@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EleCho.GrammarParsing", "EleCho.GrammarParsing\EleCho.GrammarParsing.csproj", "{C109ED75-738C-4EA9-A16D-9318DCE55210}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{D8970063-25AF-4B15-841B-7D94DBD07D03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C109ED75-738C-4EA9-A16D-9318DCE55210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C109ED75-738C-4EA9-A16D-9318DCE55210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C109ED75-738C-4EA9-A16D-9318DCE55210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C109ED75-738C-4EA9-A16D-9318DCE55210}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8970063-25AF-4B15-841B-7D94DBD07D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8970063-25AF-4B15-841B-7D94DBD07D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8970063-25AF-4B15-841B-7D94DBD07D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8970063-25AF-4B15-841B-7D94DBD07D03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D979CD1-D134-4E6F-9077-CEF34D80680D}
+	EndGlobalSection
+EndGlobal
