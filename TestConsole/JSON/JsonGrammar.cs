@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EleCho.GrammarParsing;
 
-namespace TestConsole
+namespace TestConsole.JSON
 {
     public class JsonGrammar : Grammar
     {
@@ -35,8 +35,12 @@ namespace TestConsole
             var jsonNull = Terminal("JsonNull", "null");
 
             jsonValue.Rule = jsonObject | jsonArray | jsonString | jsonNumber | jsonTrue | jsonFalse | jsonNull;
+
             jsonObject.Rule = leftBrace + jsonObjectItems + rightBrace | leftBrace + rightBrace;
+            jsonObject.SyntaxBuilder = JsonSyntaxBuilders.Object;
+
             jsonArray.Rule = leftBracket + jsonArrayItems + rightBracket | leftBracket + rightBracket;
+            jsonArray.SyntaxBuilder = JsonSyntaxBuilders.Array;
 
             jsonKeyValuePair.Rule = jsonString + colon + jsonValue;
             jsonObjectItems.Rule = jsonKeyValuePair + comma + jsonObjectItems | jsonKeyValuePair;

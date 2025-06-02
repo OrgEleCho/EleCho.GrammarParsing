@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EleCho.GrammarParsing.AST;
 
 namespace EleCho.GrammarParsing
 {
@@ -27,24 +28,19 @@ namespace EleCho.GrammarParsing
 
         public string Text => _cachedText ??= TextSource.GetText(StartPosition, EndPosition);
 
+        public Syntax BuildSyntax()
+        {
+            if (Term.SyntaxBuilder is null)
+            {
+                return new DefaultSyntax(this, Children.Select(c => c.BuildSyntax()).ToArray());
+            }
+
+            return Term.SyntaxBuilder.Invoke(this, Children.Select(c => c.BuildSyntax()).ToArray());
+        }
+
         public override string ToString()
         {
             return $"{Term.Name} {{ ChildCount: {Children.Count} }}";
-        }
-    }
-
-    public class ParseTree
-    {
-        public ParseTree(ParseTreeNode root)
-        {
-            Root = root ?? throw new ArgumentNullException(nameof(root));
-        }
-
-        public ParseTreeNode Root { get; }
-
-        public override string ToString()
-        {
-            return $"ParseTree(Root: {Root.Term.Name}, Start: {Root.StartPosition}, End: {Root.EndPosition})";
         }
     }
 }

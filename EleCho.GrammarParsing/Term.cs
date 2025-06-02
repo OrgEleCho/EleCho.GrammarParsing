@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using EleCho.GrammarParsing.AST;
 
 namespace EleCho.GrammarParsing
 {
     public abstract class Term : IParsable
     {
         public string Name { get; }
+        public SyntaxBuilder? SyntaxBuilder { get; set; }
 
         public Term(string name)
         {
@@ -12,8 +14,6 @@ namespace EleCho.GrammarParsing
         }
 
         public abstract bool Parse(ITextSource textSource, ParseOptions options, [NotNullWhen(true)] out ParseTreeNode? node);
-
-
 
         public static TermRule operator +(Term term1, Term term2)
         {
