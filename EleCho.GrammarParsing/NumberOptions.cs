@@ -1,15 +1,16 @@
-﻿namespace EleCho.GrammarParsing
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EleCho.GrammarParsing
 {
     /// <summary>
     /// 十进制数字选项
     /// </summary>
-    public class DecimalNumberOptions
+    public class NumberOptions
     {
-        /// <summary>
-        /// 允许符号, 例如 +123, -234
-        /// </summary>
-        public bool AllowSign { get; set; } = true;
-
         /// <summary>
         /// 允许浮点数, 例如 123.45, 0.001
         /// </summary>
@@ -28,6 +29,6 @@
         /// <summary>
         /// 默认的十进制数字选项
         /// </summary>
-        public static DecimalNumberOptions Default { get; } = new DecimalNumberOptions();
+        public static NumberOptions Default { get; } = new NumberOptions();
     }
 }

@@ -11,42 +11,38 @@ namespace TestConsole.JSON
     {
         public JsonGrammar()
         {
-            var leftBrace = Terminal("LeftBrace", "{");
-            var rightBrace = Terminal("LeftBrace", "}");
+            var leftBrace = new SymbolTerm("LeftBrace", "{");
+            var rightBrace = new SymbolTerm("LeftBrace", "}");
 
-            var leftBracket = Terminal("LeftBrace", "[");
-            var rightBracket = Terminal("LeftBrace", "]");
+            var leftBracket = new SymbolTerm("LeftBrace", "[");
+            var rightBracket = new SymbolTerm("LeftBrace", "]");
 
-            var colon = Terminal("Colon", ":");
-            var comma = Terminal("Comma", ",");
+            var colon = new SymbolTerm("Colon", ":");
+            var comma = new SymbolTerm("Comma", ",");
 
-            var jsonValue = NonTerminal("JsonValue");
-            var jsonObject = NonTerminal("JsonObject");
-            var jsonArray = NonTerminal("JsonArray");
+            var jsonValue = new NonTerminalTerm("JsonValue");
+            var jsonObject = new NonTerminalTerm("JsonObject");
+            var jsonArray = new NonTerminalTerm("JsonArray");
 
-            var jsonKeyValuePair = NonTerminal("JsonKeyValuePair");
-            var jsonObjectItems = NonTerminal("JsonObjectItems");
-            var jsonArrayItems = NonTerminal("JsonArrayItems");
+            var jsonKeyValuePair = new NonTerminalTerm("JsonKeyValuePair");
+            var jsonObjectItems = new NonTerminalTerm("JsonObjectItems");
+            var jsonArrayItems = new NonTerminalTerm("JsonArrayItems");
 
-            var jsonNumber = DecimalNumber("JsonNumber");
-            var jsonString = String("JsonString");
-            var jsonTrue = Terminal("JsonTrue", "true");
-            var jsonFalse = Terminal("JsonFalse", "false");
-            var jsonNull = Terminal("JsonNull", "null");
+            var jsonNumber = new NumberTerm("JsonNumber");
+            var jsonString = new StringTerm("JsonString");
+            var jsonTrue = new IdentifierTerm("JsonTrue", "true");
+            var jsonFalse = new IdentifierTerm("JsonFalse", "false");
+            var jsonNull = new IdentifierTerm("JsonNull", "null");
 
             jsonValue.Rule = jsonObject | jsonArray | jsonString | jsonNumber | jsonTrue | jsonFalse | jsonNull;
-
             jsonObject.Rule = leftBrace + jsonObjectItems + rightBrace | leftBrace + rightBrace;
-            jsonObject.SyntaxBuilder = JsonSyntaxBuilders.Object;
-
             jsonArray.Rule = leftBracket + jsonArrayItems + rightBracket | leftBracket + rightBracket;
-            jsonArray.SyntaxBuilder = JsonSyntaxBuilders.Array;
 
             jsonKeyValuePair.Rule = jsonString + colon + jsonValue;
             jsonObjectItems.Rule = jsonKeyValuePair + comma + jsonObjectItems | jsonKeyValuePair;
             jsonArrayItems.Rule = jsonValue + comma + jsonArrayItems | jsonValue;
 
-            Root = jsonObject;
+            Root = jsonValue;
         }
     }
 }

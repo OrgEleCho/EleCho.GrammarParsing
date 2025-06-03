@@ -1,61 +1,44 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace EleCho.GrammarParsing
+﻿namespace EleCho.GrammarParsing
 {
-    public class NonTerminalTerm : Term
+    public sealed class NonTerminalTerm : Term
     {
-        public TermRule? Rule { get; set; }
+        private HashSet<TerminalTerm>? _lookAheadSet;
 
         public NonTerminalTerm(string name) : base(name)
         {
         }
 
-        public NonTerminalTerm(string name, TermRule rule) : base(name)
+        public NonTerminalTerm(string name, NonTerminalTermRule? rule) : this(name)
         {
             Rule = rule;
         }
 
-        public override bool Parse(ITextSource textSource, ParseOptions options, [NotNullWhen(true)] out ParseTreeNode? node)
+        public NonTerminalTermRule? Rule { get; set; }
+
+        public IReadOnlySet<TerminalTerm> GetLookAheadSet()
         {
+            if (_lookAheadSet is not null)
+            {
+                return _lookAheadSet;
+            }
+
             if (Rule is null)
             {
-                node = null;
-                return false;
+                throw new InvalidOperationException("No rule");
             }
 
-            var startPosition = textSource.Position;
-            var children = new List<ParseTreeNode>();
-            foreach (var match in Rule)
+            _lookAheadSet = new HashSet<TerminalTerm>();
+            foreach (var branch in Rule)
             {
-                textSource.Seek(startPosition);
-
-                bool success = true;
-                children.Clear();
-                foreach (var term in match)
+                foreach (var terminalTerm in branch.GetLookAheadSet())
                 {
-                    if (options.IgnoreWhitespace)
-                    {
-                        textSource.SkipWhitespace();
-                    }
-
-                    if (!term.Parse(textSource, options, out var childNode))
-                    {
-                        success = false;
-                        break;
-                    }
-
-                    children.Add(childNode);
-                }
-
-                if (success)
-                {
-                    node = new ParseTreeNode(this, children, textSource, startPosition, textSource.Position);
-                    return true;
+                    _lookAheadSet.Add(terminalTerm);
                 }
             }
 
-            node = null;
-            return false;
+            return _lookAheadSet;
         }
     }
+
+
 }

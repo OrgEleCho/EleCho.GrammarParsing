@@ -1,36 +1,44 @@
-﻿namespace EleCho.GrammarParsing
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EleCho.GrammarParsing
 {
-    public sealed class StringTextSource : ITextSource
+    public class StringTextStream : ITextStream
     {
-        public StringTextSource(string text)
+        public StringTextStream(string text)
         {
             Text = text;
         }
 
         public string Text { get; }
-        public int Current
-        {
-            get
-            {
-                if (Position < 0 || Position >= Text.Length)
-                {
-                    return -1;
-                }
-
-                return Text[Position];
-            }
-        }
 
         public int Position { get; private set; }
 
-        public void Seek(int position)
+        public int Peek(int offset)
         {
-            Position = position;
+            var absolutePosition = Position + offset;
+            if (absolutePosition < Text.Length)
+            {
+                return Text[absolutePosition];
+            }
+
+            return -1;
         }
 
-        public static implicit operator StringTextSource(string text)
+        public int Read()
         {
-            return new StringTextSource(text);
+            if (Position >= Text.Length)
+            {
+                return -1;
+            }
+
+            var result = Text[Position];
+            Position++;
+
+            return result;
         }
     }
 }

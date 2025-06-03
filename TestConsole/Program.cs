@@ -1,33 +1,31 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using EleCho.GrammarParsing;
+using EleCho.GrammarParsing.Parsing;
+using EleCho.GrammarParsing.Tokenizing;
 using TestConsole;
+using TestConsole.JSON;
 
 var jsonGrammar = new JsonGrammar();
-var textSource = new StringTextSource(
+var textSource = new StringTextStream(
     """
-    {
-        "name": "John",
-        "age": 30,
-        "car": null,
-        "isEmployed": true,
-        "children": [
-            {
-                "name": "Jane",
-                "age": 10
-            },
-            {
-                "name": "Doe",
-                "age": 5
-            }
-        ]
-    }
+    [
+      { "abc": "234" },
+      123
+    ]
     """);
 
-var jsonParseTree = jsonGrammar.Parse(textSource, ParseOptions.Default);
+var tokenizer = new Tokenizer(jsonGrammar);
+var tokenStream = tokenizer.Tokenize(textSource);
 
-var numberParseOK = new DecimalNumberTerm("QWQ", DecimalNumberOptions.Default).Parse((StringTextSource)"123.456", ParseOptions.Default, out var node);
-var stringParseOK = new StringTerm("AWA", StringOptions.Default).Parse((StringTextSource)"\"Hello, World!\"", ParseOptions.Default, out var stringNode);
+//List<Token> tokens = new List<Token>();
+//while (tokenStream.Read() is { Kind: not TokenKind.EndOfFile } token)
+//{
+//    tokens.Add(token);
+//}
 
+//return;
 
+var parser = new RecursiveDescentParser(jsonGrammar);
+var parseTree = parser.Parse(tokenStream);
 
 Console.WriteLine("QWQ");
